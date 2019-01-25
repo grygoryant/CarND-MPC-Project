@@ -3,6 +3,50 @@ Self-Driving Car Engineer Nanodegree Program
 
 ---
 
+## Description
+
+### 1. Model
+
+The state vector contains system variables and errors:
+
+![equation](http://latex.codecogs.com/gif.latex?%5Bx%2Cy%2C%5Cpsi%2Cv%2Ccte%2Ce%5Cpsi%5D),
+
+where `x` and `y` are the vehicle position, ![equation](http://latex.codecogs.com/gif.latex?%5Cpsi) is orientation, `v` is speed. `cte` and ![equation](http://latex.codecogs.com/gif.latex?e%5Cpsi) are crosstrack error and the orientation error.
+
+Update equations are as follows:
+
+![equation](http://latex.codecogs.com/gif.latex?x_%7Bt+1%7D%20%3D%20x_t%20+%20v_t%20*%20cos%28%5Cpsi_t%29%20*%20dt)
+
+![equation](http://latex.codecogs.com/gif.latex?y_%7Bt+1%7D%20%3D%20y_t%20+%20v_t%20*%20sin%28%5Cpsi_t%29%20*%20dt)
+
+![equation](http://latex.codecogs.com/gif.latex?%5Cpsi_%7Bt+1%7D%20%3D%20%5Cpsi_t%20+%20%5Cfrac%7Bv_t%7D%7BL_f%7D%20*%20%5Cdelta_t%20*%20dt)
+
+![equation](http://latex.codecogs.com/gif.latex?v_%7Bt+1%7D%20%3D%20v_t%20+%20a_t%20*%20dt)
+
+![equation](http://latex.codecogs.com/gif.latex?cte_%7Bt+1%7D%20%3D%20f%28x_t%29%20-%20y_t%20+%20v_t%20*%20sin%28e%5Cpsi_t%29%20*%20dt)
+
+![equation](http://latex.codecogs.com/gif.latex?e%5Cpsi_%7Bt+1%7D%20%3D%20%5Cpsi_t%20-%20%5Cpsi%20dest%20+%20%5Cfrac%7Bv_f%7D%7BL_f%7D%20*%20%5Cdelta_t%20*%20dt)
+
+Actuators are:
+
+![equation](http://latex.codecogs.com/gif.latex?%5Cdelta%20%5Cin%20%5B-25%5E%7B%5Ccirc%7D%3B%2025%5E%7B%5Ccirc%7D%5D) - steering angle
+
+![equation](http://latex.codecogs.com/gif.latex?%5Cdelta%20%5Cin%20%5B-1%3B%201%5D) - throttle
+
+### 2. `N` and `dt`
+
+These values were choosen by trial and error, and they are 10 and 0.1 respectively. Values of `N` more than 10 are useless and computationally expensive for this project. `dt` value is connected with system latency, so 0.1 is reasonable value for this parameter.
+
+### 3. Waypoints preprocessing
+
+Waypoints are given by simulator as points in global coordinate system, so waypoints preprocessing is required. Given waypoints are shifted to the origin of car's coordinate system and then rotated by 90 degrees in order to follow car's orientation.
+
+### 4. Latency
+
+The simpliest way to consider system latency is just to predict the following state after the time frame which is equal to latency.
+
+---
+
 ## Dependencies
 
 * cmake >= 3.5
